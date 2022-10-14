@@ -7,17 +7,17 @@ public class Solution {
 
 
     public static void main(String[]args){
-        System.out.println(new Solution().solution("Zbcdefg"));
+        System.out.println(new Solution().solution(new int[]{1,2,3,4}, new int[]{-3,-1,0,2}));
     }
 
-    public String solution(String s) {
-        StringBuilder answer = new StringBuilder();
-        String[] arr = s.split("");
-        Arrays.sort(arr, Collections.reverseOrder());
-        for (String st:arr) {
-            answer.append(st);
+    public int solution(int[] a, int[] b) {
+        int answer = 0;
+        for(int i = 0; i < a.length; i++){
+            answer += a[i] * b[i];
         }
-        return answer.toString();
+        return answer;
+
+        //return IntStream.range(0, a.length).map(index -> a[index] * b[index]).sum();
     }
 }
 
