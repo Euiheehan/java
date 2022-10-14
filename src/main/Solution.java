@@ -1,18 +1,23 @@
 package main;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class Solution {
 
 
     public static void main(String[]args){
-        System.out.println(new Solution().solution("qwer"));
+        System.out.println(new Solution().solution("Zbcdefg"));
     }
 
     public String solution(String s) {
-
-        int beginNum = s.length()/2;
-        boolean isTwoNum = s.length() % 2 == 0;
-
-        return isTwoNum ? s.substring(beginNum-1, beginNum+1) : s.substring(beginNum, beginNum+1);
+        StringBuilder answer = new StringBuilder();
+        String[] arr = s.split("");
+        Arrays.sort(arr, Collections.reverseOrder());
+        for (String st:arr) {
+            answer.append(st);
+        }
+        return answer.toString();
     }
 }
 
