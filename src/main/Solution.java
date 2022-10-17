@@ -1,23 +1,22 @@
 package main;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 public class Solution {
 
 
     public static void main(String[]args){
-        System.out.println(new Solution().solution(new int[]{1,2,3,4}, new int[]{-3,-1,0,2}));
+        System.out.println(new Solution().solution(3, 20, 4));
     }
 
-    public int solution(int[] a, int[] b) {
-        int answer = 0;
-        for(int i = 0; i < a.length; i++){
-            answer += a[i] * b[i];
-        }
-        return answer;
+    public long solution(int price, int money, int count) {
+        long answer = 0;
 
-        //return IntStream.range(0, a.length).map(index -> a[index] * b[index]).sum();
+        for(int i = 1; i<=count ; i++){
+            answer += price * i;
+        }
+        return money - answer < 0? (money - answer)*-1 : 0;
+
+        //등차수열
+        //return Math.max(price * (count * (count + 1) / 2) - money, 0);
     }
 }
 
