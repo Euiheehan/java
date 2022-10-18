@@ -1,22 +1,25 @@
 package main;
 
+import java.util.Arrays;
+
 public class Solution {
 
 
-    public static void main(String[]args){
-        System.out.println(new Solution().solution(3, 20, 4));
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new Solution().solution(new int[]{1, 1, 3, 3, 0, 1, 1})));
     }
 
-    public long solution(int price, int money, int count) {
-        long answer = 0;
+    public int[] solution(int []arr) {
+        String answer = String.valueOf(arr[0]);
+        int beforeNum = arr[0];
 
-        for(int i = 1; i<=count ; i++){
-            answer += price * i;
+        for(int i : arr){
+            if(beforeNum != i){
+                answer += i;
+                beforeNum = i;
+            }
         }
-        return money - answer < 0? (money - answer)*-1 : 0;
-
-        //등차수열
-        //return Math.max(price * (count * (count + 1) / 2) - money, 0);
+       return Arrays.stream(answer.split("")).mapToInt(Integer::parseInt).toArray();
     }
 }
 
