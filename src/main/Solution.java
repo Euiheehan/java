@@ -1,26 +1,27 @@
 package main;
 
-import java.util.Arrays;
-
-public class Solution {
-
-
+class Main {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new Solution().solution(new int[]{1, 1, 3, 3, 0, 1, 1})));
+
+
+          System.out.print(new Main().solution(".... . .-.. .-.. ---"));
     }
 
-    public int[] solution(int []arr) {
-        String answer = String.valueOf(arr[0]);
-        int beforeNum = arr[0];
+    public String solution(String letter) {
 
-        for(int i : arr){
-            if(beforeNum != i){
-                answer += i;
-                beforeNum = i;
+        String[] arr = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+        StringBuilder answer = new StringBuilder();
+        String[] letters = letter.split(" ");
+
+        for(String s : letters){
+            for(int i = 0; i<arr.length; i++){
+                if(s.equalsIgnoreCase(arr[i])){
+                    answer.append(Character.toChars(i+97));
+                    break;
+                }
             }
         }
-       return Arrays.stream(answer.split("")).mapToInt(Integer::parseInt).toArray();
+
+        return answer.toString();
     }
 }
-
-
