@@ -1,27 +1,45 @@
 package main;
 
-import java.util.*;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Main {
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        System.out.println(new Main().solution(new int[]{3,3,4,5,5,2,2,2,1,5,6,6,5,4,3,4,34,234,23,423,4,3,3,3,4,3,6,7,8,8,5,45,4,4,4,6,7,7,7,9,3,2,2,4,3,3,4,5,5,2,2,2,1,5,6,6,5,4,3,4,34,234,23,423,4,3,3,3,4,3,6,7,8,8,5,45,4,4,4,6,7,7,7,9,3,2,2,4,3,3,4,5,5,2,2,2,1,5,6,6,5,4,3,4,34,234,23,423,4,3,3,3,4,3,6,7,8,8,5,45,4,4,4,6,7,7,7,9,3,2,2,4,3,3,4,5,5,2,2,2,1,5,6,6,5,4,3,4,34,234,23,423,4,3,3,3,4,3,6,7,8,8,5,45,4,4,4,6,7,7,7,9,3,2,2,4}));
-        long end = System.currentTimeMillis();
-        System.out.println(end-start);
+        Main main =  new Main();
+
+        System.out.println(main.BFS(5, 14));
+
     }
+    public int BFS(int root, int goal) {
 
-    public int solution(int[] nums) {
-        int pickUpCount = nums.length/2;
+        boolean[] ch = new boolean[10001]; //방문한 숫자 다시 담지 않으려고 체크용
+        int[] dis = {1,-1,5};
 
-        HashSet<Integer> set = new HashSet<>();
-        for (int num : nums) {
-            set.add(num);
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(root);
+        ch[root] = true;
+
+        int L = 0;
+        while(!queue.isEmpty()){
+            int len = queue.size();
+            for(int i = 0; i<len; i++){
+                Integer cur = queue.poll();
+                if(cur == null) { throw new NullPointerException();}
+                if(cur == goal) return L;
+                for(int a : dis){
+                    int sum = cur+a;
+                    if(sum>=1 && sum<=10000 && !ch[sum]){
+                        //제약조건 + 체크배열에 아직 안담긴 것이라면(중복 막기위해)
+                        ch[sum] = true;
+                        queue.offer(sum);
+                    }
+                }
+            }
+            L++;
         }
-
-        //distinct보다 HashSet이 빠른이유는 distinct는 statful하기 때문
-        //int kindCount = (int)Arrays.stream(nums).distinct().count();
-
-        //return Math.min(pickUpCount, kindCount);
-        return Math.min(pickUpCount, set.size());
+        return L;
     }
 }
+
+
