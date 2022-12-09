@@ -3,12 +3,16 @@ package main;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 
 class Main {
     public static void main(String[] args) {
         Main main =  new Main();
+        Scanner scanner = new Scanner(System.in);
+        int root = scanner.nextInt();
+        int goal = scanner.nextInt();
 
-        System.out.println(main.BFS(5, 14));
+        System.out.println(main.BFS(root, goal));
 
     }
     public int BFS(int root, int goal) {
@@ -26,9 +30,10 @@ class Main {
             for(int i = 0; i<len; i++){
                 Integer cur = queue.poll();
                 if(cur == null) { throw new NullPointerException();}
-                if(cur == goal) return L;
+                //if(cur == goal) return L;
                 for(int a : dis){
                     int sum = cur+a;
+                    if(sum == goal) return L+1;
                     if(sum>=1 && sum<=10000 && !ch[sum]){
                         //제약조건 + 체크배열에 아직 안담긴 것이라면(중복 막기위해)
                         ch[sum] = true;
