@@ -1,32 +1,20 @@
 package main;
 
 
-import java.util.Stack;
-
 class Main {
     public static void main(String[] args) {
         System.out.print(new Main().solution("(())()"));
     }
     boolean solution(String s) {
-        boolean answer = true;
+        if(s.charAt(0) == ')' || s.charAt(s.length()-1) == '(') return false;
 
-        Stack<Character> stack = new Stack<>();
-
-        for(int i = 0 ; i<s.length(); i++){
-            char c = s.charAt(i);
-            if('(' == c){
-                stack.push(c);
-            }else{
-                if(stack.isEmpty()){
-                    return false;
-                }
-                stack.pop();
-            }
+        int count = 0;
+        for(char c : s.toCharArray()){
+            if(c == '(') count++;
+            if(c == ')') count--;
+            if(count < 0) break;
         }
-
-        if(!stack.isEmpty()){ return false;}
-
-        return answer;
+        return count == 0;
     }
 }
 
