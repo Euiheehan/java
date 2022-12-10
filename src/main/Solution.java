@@ -1,49 +1,41 @@
 package main;
 
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-import java.util.Scanner;
 
 class Main {
     public static void main(String[] args) {
-        Main main =  new Main();
-        Scanner scanner = new Scanner(System.in);
-        int root = scanner.nextInt();
-        int goal = scanner.nextInt();
-
-        System.out.println(main.BFS(root, goal));
-
-    }
-    public int BFS(int root, int goal) {
-
-        boolean[] ch = new boolean[10001]; //방문한 숫자 다시 담지 않으려고 체크용
-        int[] dis = {1,-1,5};
-
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(root);
-        ch[root] = true;
-
-        int L = 0;
-        while(!queue.isEmpty()){
-            int len = queue.size();
-            for(int i = 0; i<len; i++){
-                Integer cur = queue.poll();
-                if(cur == null) { throw new NullPointerException();}
-                //if(cur == goal) return L;
-                for(int a : dis){
-                    int sum = cur+a;
-                    if(sum == goal) return L+1;
-                    if(sum>=1 && sum<=10000 && !ch[sum]){
-                        //제약조건 + 체크배열에 아직 안담긴 것이라면(중복 막기위해)
-                        ch[sum] = true;
-                        queue.offer(sum);
-                    }
-                }
-            }
-            L++;
+        for(int i : new Main().solution(new int[]{95, 90, 99, 99, 80, 99}, new int[]{1, 1, 1, 1, 1, 1})){
+            System.out.print(i);
         }
-        return L;
+    }
+    public int[] solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new LinkedList<>();
+
+        List<Integer> list = new ArrayList<>();
+
+        int len =  progresses.length;
+
+        for(int i = 0; i< len; i++){
+            int todoTask = 100-progresses[i];
+            int day = todoTask % speeds[i] != 0? todoTask / speeds[i] +1 : todoTask / speeds[i];
+            queue.offer(day);
+        }
+
+        int count = 1;
+        while(!queue.isEmpty()){
+            int cur = queue.poll();
+            while(!queue.isEmpty() && queue.peek()<= cur){ //작업기간이 같거나 작을때 같이 배포
+                queue.poll();
+                count++;
+            }
+            list.add(count);
+            count = 1;
+        }
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
 
