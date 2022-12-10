@@ -1,35 +1,32 @@
 package main;
 
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.Stack;
 
 class Main {
     public static void main(String[] args) {
-        for(int i : new Main().solution(new int[]{1, 1, 1, 1}, new int[]{100, 50, 99, 100})){
-            System.out.print(i);
-        }
+        System.out.print(new Main().solution("(())()"));
     }
-    public int[] solution(int[] progresses, int[] speeds) {
-        Queue<Integer> queue = new LinkedList<>();
+    boolean solution(String s) {
+        boolean answer = true;
 
-        List<Integer> list = new ArrayList<>();
+        Stack<Character> stack = new Stack<>();
 
-        int len =  progresses.length;
-
-        for(int i = 0; i< len; i++){
-            int day = (int) Math.ceil((double) (100-progresses[i])/speeds[i]);
-
-            if(!queue.isEmpty() && queue.peek() < day){
-                list.add(queue.size());
-                queue.clear();
+        for(int i = 0 ; i<s.length(); i++){
+            char c = s.charAt(i);
+            if('(' == c){
+                stack.push(c);
+            }else{
+                if(stack.isEmpty()){
+                    return false;
+                }
+                stack.pop();
             }
-            queue.offer(day);
         }
-        list.add(queue.size());
-        return list.stream().mapToInt(Integer::intValue).toArray();
+
+        if(!stack.isEmpty()){ return false;}
+
+        return answer;
     }
 }
 
