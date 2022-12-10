@@ -8,7 +8,7 @@ import java.util.Queue;
 
 class Main {
     public static void main(String[] args) {
-        for(int i : new Main().solution(new int[]{95, 90, 99, 99, 80, 99}, new int[]{1, 1, 1, 1, 1, 1})){
+        for(int i : new Main().solution(new int[]{1, 1, 1, 1}, new int[]{100, 50, 99, 100})){
             System.out.print(i);
         }
     }
@@ -20,21 +20,15 @@ class Main {
         int len =  progresses.length;
 
         for(int i = 0; i< len; i++){
-            int todoTask = 100-progresses[i];
-            int day = todoTask % speeds[i] != 0? todoTask / speeds[i] +1 : todoTask / speeds[i];
+            int day = (int) Math.ceil((double) (100-progresses[i])/speeds[i]);
+
+            if(!queue.isEmpty() && queue.peek() < day){
+                list.add(queue.size());
+                queue.clear();
+            }
             queue.offer(day);
         }
-
-        int count = 1;
-        while(!queue.isEmpty()){
-            int cur = queue.poll();
-            while(!queue.isEmpty() && queue.peek()<= cur){ //작업기간이 같거나 작을때 같이 배포
-                queue.poll();
-                count++;
-            }
-            list.add(count);
-            count = 1;
-        }
+        list.add(queue.size());
         return list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
