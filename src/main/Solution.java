@@ -1,55 +1,35 @@
 package main;
 
-import java.util.Scanner;
+import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-
-        int A = in.nextInt();
-        int[][] arr = new int[A][A];
-
-        for (int i = 0; i < A; i++) {
-            for (int j = 0; j < A; j++) {
-                arr[i][j] = in.nextInt();
-            }
-        }
-        System.out.print(new Main().solution(arr));
+        System.out.println(new Main().solution(new String[]{"119", "97674223", "1195524421"}));
     }
 
-    public int solution(int[][] arr) {
+    public boolean solution(String[] phone_book) {
+        //문자열 길이로 정렬
+        Arrays.sort(phone_book, Comparator.comparing(String::length));
 
-        int answer = 0;
-        //행
-        int[]dx = {-1,0,1,0};
-        //열
-        int[]dy = {0,1,0,-1};
+        int min = phone_book[0].length();
 
-        /*
-         * (1,1) 기준으로 4개를 비교해야될 때,
-         * [0,0] [1,1] [2,2] [3,3]
-         * (0,1) (1,2) (2,1) (1,0) 을 비교하는 것
-         * */
+        //"같은 전화번호가 중복해서 들어있지 않습니다." 다같은 길이의 문자(최소길이와 최대길이가 같으면)면 true
+        if(min == phone_book[phone_book.length-1].length()) return true;
 
+        Map<String, Integer> map = new HashMap<>();
 
-        for (int i=0; i<arr.length; i++) {
-            for(int j = 0; j<arr.length; j++){
-                boolean isTrue = true;
-                int target = arr[i][j];
-                for(int k = 0; k<4; k++){
-                    int nx = i+dx[k];
-                    int ny = j+dy[k];
-                    if(nx >= 0 && nx <arr.length
-                            && ny >= 0 && ny <arr.length
-                            && target <= arr[nx][ny]) {
-                        isTrue=false;
-                        break;
-                    }
+        for (String s : phone_book) {
+            //최소 단위의 문자길이부터 (같은 길이의 같은 문자열은 없으므로) 본인 길이까지 잘라서 검사
+            for (int j = min; j < s.length(); j++) {
+                String key = s.substring(0, j);
+                if (map.get(key) != null && map.get(key) > 0) {
+                    return false;
                 }
-                answer += isTrue? 1 : 0;
             }
+            //본인 문자열 저장
+            map.put(s, map.getOrDefault(s,0)+1);
         }
-        return answer;
+        return true;
     }
 }
 
