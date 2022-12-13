@@ -4,32 +4,41 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        System.out.println(new Main().solution(new String[]{"119", "97674223", "1195524421"}));
+        System.out.println(new Main().solution("100001", "1010101"));
     }
-
-    public boolean solution(String[] phone_book) {
-        //문자열 길이로 정렬
-        Arrays.sort(phone_book, Comparator.comparing(String::length));
-
-        int min = phone_book[0].length();
-
-        //"같은 전화번호가 중복해서 들어있지 않습니다." 다같은 길이의 문자(최소길이와 최대길이가 같으면)면 true
-        if(min == phone_book[phone_book.length-1].length()) return true;
-
-        Map<String, Integer> map = new HashMap<>();
-
-        for (String s : phone_book) {
-            //최소 단위의 문자길이부터 (같은 길이의 같은 문자열은 없으므로) 본인 길이까지 잘라서 검사
-            for (int j = min; j < s.length(); j++) {
-                String key = s.substring(0, j);
-                if (map.get(key) != null && map.get(key) > 0) {
-                    return false;
-                }
-            }
-            //본인 문자열 저장
-            map.put(s, map.getOrDefault(s,0)+1);
+    public String solution(String bin1, String bin2) {
+        StringBuilder answer = new StringBuilder();
+        int len;
+        if(bin1.length() < bin2.length()){
+            len = bin2.length();
+            bin1 = "0".repeat(bin2.length()-bin1.length())+bin1;
+        }else if(bin1.length() > bin2.length()){
+            len = bin1.length();
+            bin2 = "0".repeat(bin1.length()-bin2.length())+bin2;
+        }else {
+            len = bin1.length();
         }
-        return true;
+
+        int addSum = 0;
+        for(int i = len-1; i >= 0; i--){
+            int sum = Character.getNumericValue(bin1.charAt(i)) + Character.getNumericValue(bin2.charAt(i)); // 더한 값
+            int total10Sum = sum+addSum;
+
+            if(total10Sum == 3){
+                answer.append("1");
+            } else if (total10Sum == 2) {
+                answer.append("0");
+            }else{
+                answer.append(total10Sum);
+            }
+
+            addSum = total10Sum > 1? 1 : 0;
+        }
+
+        if(addSum == 1){
+            answer.append("1");
+        }
+        return answer.reverse().toString();
     }
 }
 
