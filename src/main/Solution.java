@@ -8,10 +8,21 @@ class Main {
     }
 
     public int solution(String[] babbling) {
-        return (int) Arrays.stream(babbling)
-                .map(s -> s.replaceAll("(aya|ye|woo|ma)",""))
-                .filter(s -> s.length() ==0)
-                .count();
+        int answer = 0;
+
+        for(int i =0; i < babbling.length; i++) {
+            babbling[i] = babbling[i].replace("aya", "1");
+            babbling[i] = babbling[i].replace("woo", "1");
+            babbling[i] = babbling[i].replace("ye", "1");
+            babbling[i] = babbling[i].replace("ma", "1");
+            //1로 해주는 이유는 순차 replace이기 때문에 ""이걸로 하는 경우에는 wyeoo -> woo -> "" 로 잘못된 count가 올라갈 수 있기 때문에.
+            babbling[i] = babbling[i].replace("1", "");
+            if(babbling[i].isEmpty()) {
+                answer++;
+            }
+        }
+
+        return answer;
     }
 }
 
