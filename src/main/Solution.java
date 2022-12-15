@@ -8,15 +8,10 @@ class Main {
     }
 
     public int solution(String[] babbling) {
-        int answer = 0;
-
-        for(int i =0; i < babbling.length; i++) {
-            babbling[i] = babbling[i].replaceAll("aya|woo|ye|ma", "");
-            if(babbling[i].isEmpty()) {
-                answer++;
-            }
-        }
-        return answer;
+        return (int) Arrays.stream(babbling)
+                .map(s -> s.replaceAll("(aya|ye|woo|ma)",""))
+                .filter(s -> s.length() ==0)
+                .count();
     }
 }
 
