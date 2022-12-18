@@ -17,7 +17,11 @@ class Main {
                list.add(i);
            }
         }
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        int[] result = new int[list.size()];
+        for(int i = 0; i< result.length; i++){
+            result[i] = list.get(i);
+        }
+        return result;
     }
 }
 
