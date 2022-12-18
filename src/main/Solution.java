@@ -9,18 +9,14 @@ class Main {
     }
 
     public int[] solution(int []arr) {
-        Queue<Integer> queue = new LinkedList<>();
-
-        queue.offer(arr[0]);
 
         List<Integer> list = new ArrayList<>();
+        list.add(arr[0]);
         for(int i : arr){
-           if(i != queue.element()){
-               queue.offer(i);
-               list.add(queue.poll());
+           if(list.get(list.size()-1) != i){
+               list.add(i);
            }
         }
-        list.add(queue.poll());
         return list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
