@@ -12,14 +12,15 @@ class Main {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
 
-        for(int i =0; i<commands.length; i++){
-            int subStart = commands[i][0]-1;
-            int subEnd = commands[i][1];
-            int k = commands[i][2]-1;
+        int index = 0;
+        for(int[] arr : commands){
+            int subStart = arr[0]-1;
+            int subEnd = arr[1];
+            int k = arr[2]-1;
 
             int[] subStringArr = Arrays.copyOfRange(array, subStart, subEnd);
             Arrays.sort(subStringArr);
-            answer[i] = subStringArr[k];
+            answer[index++] = subStringArr[k];
         }
         return answer;
     }
