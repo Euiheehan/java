@@ -17,10 +17,10 @@ class Main {
             int subEnd = commands[i][1];
             int k = commands[i][2]-1;
 
-            int[] subStringArr = Arrays.stream(Arrays.copyOfRange(array, subStart, subEnd)).sorted().toArray();
+            int[] subStringArr = Arrays.copyOfRange(array, subStart, subEnd);
+            Arrays.sort(subStringArr);
             answer[i] = subStringArr[k];
         }
-
         return answer;
     }
 }
