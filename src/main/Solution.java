@@ -22,15 +22,9 @@ class Main {
         int maxX = 0;
         int maxY = 0;
 
-        for(int i = 0; i<sizes.length; i++){
-            if(sizes[i][0]> sizes[i][1]){
-                int temp = sizes[i][0];
-                sizes[i][0] = sizes[i][1];
-                sizes[i][1] = temp;
-            }
-
-            if(maxX < sizes[i][0]) maxX = sizes[i][0];
-            if(maxY < sizes[i][1]) maxY = sizes[i][1];
+        for(int[] size: sizes ){
+            maxX = Math.max(maxX, Math.min(size[0], size[1]));
+            maxY = Math.max(maxY, Math.max(size[0], size[1]));
         }
         return maxX*maxY;
     }
