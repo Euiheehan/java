@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 class Main {
@@ -19,13 +20,11 @@ class Main {
     }
 
     public int solution(int[][] sizes) {
-        int maxX = 0;
-        int maxY = 0;
 
-        for(int[] size: sizes ){
-            maxX = Math.max(maxX, Math.min(size[0], size[1]));
-            maxY = Math.max(maxY, Math.max(size[0], size[1]));
-        }
-        return maxX*maxY;
+       return Arrays.stream(sizes)
+                .reduce((x, y) -> new int[]{
+                        Math.max(Math.min(x[0], x[1]), Math.min(y[0],y[1])) //더 작은 값 중의 최대 값
+                        ,Math.max(Math.max(x[0], x[1]), Math.max(y[0],y[1]))  // 더 큰 값 중의 최대 값
+                }).map(ints -> ints[0] *ints[1]).orElse(0);
     }
 }
