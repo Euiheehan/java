@@ -7,24 +7,23 @@ class Main {
     public static void main(String[] args) {
         Main main =  new Main();
         Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
+        String s1 = scanner.nextLine();
+        String s2 = scanner.nextLine();
 
-        int[][] sizes = new int[n][m];
-        for(int i =0; i<n; i++){
-            for(int j =0; j<m; j++){
-                sizes[i][j] = scanner.nextInt();
-            }
-        }
-        System.out.println(main.solution(sizes));
+        System.out.println(main.solution(s1,s2));
     }
 
-    public int solution(int[][] sizes) {
+    public int solution(String t, String p) {
 
-       return Arrays.stream(sizes)
-                .reduce((x, y) -> new int[]{
-                        Math.max(Math.min(x[0], x[1]), Math.min(y[0],y[1])) //더 작은 값 중의 최대 값
-                        ,Math.max(Math.max(x[0], x[1]), Math.max(y[0],y[1]))  // 더 큰 값 중의 최대 값
-                }).map(ints -> ints[0] *ints[1]).orElse(0);
+        int count = 0;
+        if(t.length() == p.length()) return 1;
+
+        for(int i = 0; i<=t.length()-p.length(); i++){
+            long A = Long.parseLong(t.substring(i, i+p.length()));
+            long B = Long.parseLong(p);
+
+            if(A <= B) count++;
+        }
+        return count;
     }
 }
