@@ -7,23 +7,32 @@ class Main {
     public static void main(String[] args) {
         Main main =  new Main();
         Scanner scanner = new Scanner(System.in);
-        String s1 = scanner.nextLine();
-        String s2 = scanner.nextLine();
+        int s1 = scanner.nextInt();
+        int s2 = scanner.nextInt();
 
-        System.out.println(main.solution(s1,s2));
+
+        System.out.println(Arrays.toString(main.solution(s1, s2)));
     }
 
-    public int solution(String t, String p) {
+    public int[] solution(int n, int m) {
 
-        int count = 0;
-        if(t.length() == p.length()) return 1;
-
-        for(int i = 0; i<=t.length()-p.length(); i++){
-            long A = Long.parseLong(t.substring(i, i+p.length()));
-            long B = Long.parseLong(p);
-
-            if(A <= B) count++;
+        int l = n*m;
+        int[] result = new int[2];
+        if(n<m){
+            int temp = n;
+            n = m;
+            m = temp;
         }
-        return count;
+
+        while(m!=0) {
+            int r=n%m;
+            n=m;
+            m=r;
+        }
+        result[0] = n;
+
+        result[1] = l/result[0];
+
+        return result;
     }
 }
