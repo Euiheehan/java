@@ -14,25 +14,18 @@ class Main {
         System.out.println(Arrays.toString(main.solution(s1, s2)));
     }
 
+
     public int[] solution(int n, int m) {
+        int[] answer = new int[2];
 
-        int l = n*m;
-        int[] result = new int[2];
-        if(n<m){
-            int temp = n;
-            n = m;
-            m = temp;
-        }
+        answer[0] = gcd(n,m);
+        answer[1] = (n*m)/answer[0];
+        return answer;
+    }
 
-        while(m!=0) {
-            int r=n%m;
-            n=m;
-            m=r;
-        }
-        result[0] = n;
-
-        result[1] = l/result[0];
-
-        return result;
+    public static int gcd(int p, int q)
+    {
+        if (q == 0) return p;
+        return gcd(q, p%q);
     }
 }
