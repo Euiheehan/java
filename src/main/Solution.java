@@ -16,16 +16,12 @@ class Main {
 
 
     public int[] solution(int n, int m) {
-        int[] answer = new int[2];
+        int GCD = getGCD(Math.min(n, m), Math.max(n, m));
 
-        answer[0] = gcd(n,m);
-        answer[1] = (n*m)/answer[0];
-        return answer;
+        return new int[] {GCD, (n * m) / GCD};
     }
 
-    public static int gcd(int p, int q)
-    {
-        if (q == 0) return p;
-        return gcd(q, p%q);
+    public int getGCD(int small, int big) {
+        return big % small != 0 ? getGCD(big % small, small) : small;
     }
 }
