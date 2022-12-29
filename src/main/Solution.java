@@ -1,27 +1,38 @@
 package main;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        Main main =  new Main();
+        Main main = new Main();
         Scanner scanner = new Scanner(System.in);
-        int s1 = scanner.nextInt();
-        int s2 = scanner.nextInt();
+        int n = scanner.nextInt();
 
+        int[] arr = new int[n];
 
-        System.out.println(Arrays.toString(main.solution(s1, s2)));
+        for(int i =0; i<n; i++){
+            arr[i] = scanner.nextInt();
+        }
+        System.out.println(Arrays.toString(main.solution(arr)));
+    }
+
+    public int[] solution(int[] numbers) {
+        List<Integer> list = new ArrayList<>();
+
+        Arrays.sort(numbers);
+
+        for(int i=0; i< numbers.length; i++){
+            for(int j =i+1; j< numbers.length; j++){
+                int sum = numbers[i]+numbers[j];
+                if(!list.contains(sum)){
+                    list.add(sum);
+                }
+            }
+        }
+        return list.stream().sorted().mapToInt(Integer::intValue).toArray();
     }
 
 
-    public int[] solution(int n, int m) {
-        int GCD = getGCD(Math.min(n, m), Math.max(n, m));
 
-        return new int[] {GCD, (n * m) / GCD};
-    }
 
-    public int getGCD(int small, int big) {
-        return big % small != 0 ? getGCD(big % small, small) : small;
-    }
 }
