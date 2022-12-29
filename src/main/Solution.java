@@ -17,19 +17,22 @@ class Main {
     }
 
     public int[] solution(int[] numbers) {
-        List<Integer> list = new ArrayList<>();
+        Set<Integer> set = new TreeSet<>();
+        //TreeSet 은 중복제거 + 자동 오름차순 정렬
+        //Set<Integer> set = new HashSet<>();
 
-        Arrays.sort(numbers);
+        //어차피 아래에서 정렬하니까
+        //Arrays.sort(numbers);
 
         for(int i=0; i< numbers.length; i++){
             for(int j =i+1; j< numbers.length; j++){
                 int sum = numbers[i]+numbers[j];
-                if(!list.contains(sum)){
-                    list.add(sum);
+                set.add(sum);
                 }
             }
-        }
-        return list.stream().sorted().mapToInt(Integer::intValue).toArray();
+        return set.stream().mapToInt(Integer::intValue).toArray();
+        //HashSet쓰면 sorted()해줘야 함 정렬X
+        //return set.stream().sorted().mapToInt(Integer::intValue).toArray();
     }
 
 
