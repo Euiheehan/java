@@ -13,29 +13,21 @@ class Main {
         for(int i =0; i<n; i++){
             arr[i] = scanner.nextInt();
         }
-        System.out.println(Arrays.toString(main.solution(arr)));
+        System.out.println(main.solution(arr));
     }
 
-    public int[] solution(int[] numbers) {
-        Set<Integer> set = new TreeSet<>();
-        //TreeSet 은 중복제거 + 자동 오름차순 정렬
-        //Set<Integer> set = new HashSet<>();
+    public int solution(int[] number) {
+        int answer = 0;
 
-        //어차피 아래에서 정렬하니까
-        //Arrays.sort(numbers);
-
-        for(int i=0; i< numbers.length; i++){
-            for(int j =i+1; j< numbers.length; j++){
-                int sum = numbers[i]+numbers[j];
-                set.add(sum);
+        for(int i = 0; i<number.length; i++){
+            for(int j = i+1; j<number.length; j++){
+                for(int k = j+1; k<number.length; k++){
+                   if(number[i]+number[j]+number[k] == 0){
+                       answer++;
+                   }
                 }
             }
-        return set.stream().mapToInt(Integer::intValue).toArray();
-        //HashSet쓰면 sorted()해줘야 함 정렬X
-        //return set.stream().sorted().mapToInt(Integer::intValue).toArray();
+        }
+        return answer;
     }
-
-
-
-
 }
