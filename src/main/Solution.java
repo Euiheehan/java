@@ -3,43 +3,41 @@ package main;
 import java.util.*;
 
 class Main {
-    static int max;
-    static int maxValue;
-
     public static void main(String[] args) {
         Main main = new Main();
 
         Scanner scanner = new Scanner(System.in);
         int n =  scanner.nextInt();
-        int limitTime =  scanner.nextInt();
 
-        int[][] arr = new int[n][2];
+        int[]arr = new int[n];
 
         for(int i = 0; i<n; i++){
-            arr[i][0] = scanner.nextInt();
-            arr[i][1] = scanner.nextInt();
+            arr[i] = scanner.nextInt();
         }
-        System.out.println(main.solution(limitTime, arr));
+
+        int amount =  scanner.nextInt();
+        System.out.println(main.solution(amount, arr));
     }
 
-    public int solution(int limitTime, int[][] arr) {
-        max = limitTime;
-        DFS(0,0,0, arr);
-        return maxValue;
-    }
+    public int solution(int amount, int[] arr) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
 
-    private void DFS(int index, int totalScore, int totalTime, int[][] arr){
-        //totalTime이 max보다 크면 재귀돌면 X
-        if(totalTime > max) return;
+        int level = 0;
+        while(!queue.isEmpty()){
+            int len = queue.size();
+            for(int i = 0 ; i<len; i++){
+                Integer cur = queue.poll();
+                if(cur == null) throw new NullPointerException();
 
-        //totalTime이 max보다 작으면서 하나의 부분집합이 만들어졌을 때,
-        if(index == arr.length){
-            maxValue = Math.max(totalScore, maxValue);
-        }else{
-            //다음 배열의 원소를 사용O
-            DFS(index+1, totalScore+arr[index][0],totalTime+arr[index][1], arr);
-            //다음 배열의 원소를 사용X
-            DFS(index+1, totalScore, totalTime, arr);
+                for(int n : arr){
+                    int sum = cur+n;
+                    if(sum == amount) return level+1;
+                    if(sum < amount) queue.offer(sum);
+                }
+            }
+            level++;
         }
+        return level;
     }
 }
