@@ -1,23 +1,43 @@
 package main;
-
 import java.util.*;
 
 class Main {
+
     static int[][] dy;
     public static void main(String[] args) {
         Main main = new Main();
 
         Scanner scanner = new Scanner(System.in);
         int n =  scanner.nextInt();
-        int r =  scanner.nextInt();
+        int m =  scanner.nextInt();
         dy = new int[n+1][n+1];
-        System.out.println(main.DFS(n,r));
+        main.solution(n, m);
     }
 
-    public int DFS(int n, int r) {
+    public void solution(int n, int m) {
 
-        if(dy[n][r] > 0) return dy[n][r];
-        if(n == r || r==0) return 1;
-        else return dy[n][r] = DFS(n-1, r-1)+DFS(n-1, r);
+        Queue<Integer> q = new LinkedList<>();
+
+        q.offer(1);
+        int level = 0;
+        while(!q.isEmpty() && level<m){
+            int len = q.size();
+            for(int i = 0; i<len; i++){
+
+                Integer cur = q.poll();
+                if(cur == null) throw new NullPointerException();
+
+                for(int j =1; j<n+1; j++){
+                    if(dy[cur][j] == 0 && cur != j)  {
+                        q.offer(j);
+                        dy[cur][j] =1;
+                        dy[j][cur] =1;
+                        System.out.println(cur+" "+j);
+                    }
+
+                }
+            }
+            level++;
+        }
     }
 }
