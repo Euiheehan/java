@@ -3,6 +3,9 @@ package main;
 import java.util.*;
 
 class Main {
+    static int max;
+    static int minValue = Integer.MAX_VALUE;
+
     public static void main(String[] args) {
         Main main = new Main();
 
@@ -20,24 +23,27 @@ class Main {
     }
 
     public int solution(int amount, int[] arr) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(0);
+        max = amount;
 
-        int level = 0;
-        while(!queue.isEmpty()){
-            int len = queue.size();
-            for(int i = 0 ; i<len; i++){
-                Integer cur = queue.poll();
-                if(cur == null) throw new NullPointerException();
+        Integer[] arrI = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+        Arrays.sort(arrI, Collections.reverseOrder());
+        DFS(0,0, arrI);
+        return minValue;
+    }
 
-                for(int n : arr){
-                    int sum = cur+n;
-                    if(sum == amount) return level+1;
-                    if(sum < amount) queue.offer(sum);
-                }
+    private void DFS(int index, int sum, Integer[] arr){
+        //sum이 max보다 크면 재귀돌면 X
+        if(sum > max) return;
+
+        //더 도는 것을 방지
+        if(index >= minValue) return;
+        if(sum == max){
+            minValue = Math.min(sum, index);
+        }else{
+            for (int j : arr) {
+                //다음 배열의 원소를 사용O
+                DFS(index + 1, sum + j, arr);
             }
-            level++;
         }
-        return level;
     }
 }
