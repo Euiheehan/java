@@ -1,43 +1,32 @@
 package main;
+
 import java.util.*;
 
 class Main {
 
-    static int[][] dy;
+    static int n;
+    static int m;
+    static int[] combi;
     public static void main(String[] args) {
         Main main = new Main();
 
         Scanner scanner = new Scanner(System.in);
-        int n =  scanner.nextInt();
-        int m =  scanner.nextInt();
-        dy = new int[n+1][n+1];
-        main.solution(n, m);
+        n =  scanner.nextInt();
+        m =  scanner.nextInt();
+        combi = new int[m];
+        main.DFS(0, 1);
     }
 
-    public void solution(int n, int m) {
+    public void DFS(int index, int s) {
 
-        Queue<Integer> q = new LinkedList<>();
-
-        q.offer(1);
-        int level = 0;
-        while(!q.isEmpty() && level<m){
-            int len = q.size();
-            for(int i = 0; i<len; i++){
-
-                Integer cur = q.poll();
-                if(cur == null) throw new NullPointerException();
-
-                for(int j =1; j<n+1; j++){
-                    if(dy[cur][j] == 0 && cur != j)  {
-                        q.offer(j);
-                        dy[cur][j] =1;
-                        dy[j][cur] =1;
-                        System.out.println(cur+" "+j);
-                    }
-
-                }
+        if(index == m){
+            for(int x : combi) System.out.print(x +" ");
+            System.out.println();
+        }else{
+            for(int i =s; i<=n; i++){
+                combi[index] = i;
+                DFS(index+1, i+1);
             }
-            level++;
         }
     }
 }
