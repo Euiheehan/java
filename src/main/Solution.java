@@ -4,40 +4,43 @@ import java.util.*;
 
 class Main {
 
-    static int n;
-    static int m;
-    static int[] pm;
-    static int[] ch;
-    static int[] result;
     public static void main(String[] args) {
         Main main = new Main();
 
         Scanner scanner = new Scanner(System.in);
-        n =  scanner.nextInt();
-        m =  scanner.nextInt();
-        pm = new int[n];
-        ch = new int[n];
-        result = new int[m];
-        for(int i = 0; i<n; i++){
-            pm[i] =  scanner.nextInt();
+        int n =  scanner.nextInt();
+        int m =  scanner.nextInt();
+
+        int[] arr = new int[n];
+
+        for(int i=0; i<n; i++ ){
+            arr[i] = scanner.nextInt();
         }
-        main.DFS(0);
+        main.solution(n, m, arr);
     }
 
-    public void DFS(int index) {
+    public void solution(int n, int m, int[] arr) {
 
-        if(index == m){
-            for(int x : result) System.out.print(x +" ");
-            System.out.println();
-        }else{
-            for(int i =0; i<n; i++){
-                if(ch[i] == 0){
-                    ch[i] =1;
-                    result[index] = pm[i];
-                    DFS(index + 1);
-                    ch[i] =0;
+        Queue<Integer> q = new LinkedList<>();
+
+        q.offer(arr[0]);
+        int level = 0;
+        while(!q.isEmpty() && level<m){
+            int len = q.size();
+            for(int i = 0; i<len; i++){
+
+                Integer cur = q.poll();
+                if(cur == null) throw new NullPointerException();
+
+                for(int j =0; j<n; j++){
+                    if(cur !=arr[j])  {
+                        q.offer(arr[j]);
+                        System.out.println(cur+" "+arr[j]);
+                    }
+
                 }
             }
+            level++;
         }
     }
 }
