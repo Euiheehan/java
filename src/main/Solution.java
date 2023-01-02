@@ -3,30 +3,28 @@ package main;
 import java.util.*;
 
 class Main {
-
-    static int n;
-    static int m;
-    static int[] combi;
+    static int maxTarget;
+    static int count;
     public static void main(String[] args) {
-        Main main = new Main();
 
-        Scanner scanner = new Scanner(System.in);
-        n =  scanner.nextInt();
-        m =  scanner.nextInt();
-        combi = new int[m];
-        main.DFS(0, 1);
+        System.out.println(new Main().solution(new int[]{1, 1, 1, 1, 1}, 3));
     }
 
-    public void DFS(int index, int s) {
+    public int solution(int[] numbers, int target) {
+        maxTarget = target;
+        DFS(0,0,numbers);
+        return count;
+    }
 
-        if(index == m){
-            for(int x : combi) System.out.print(x +" ");
-            System.out.println();
+    private void DFS(int index, int sum, int[]arr){
+        if(index == arr.length){
+            System.out.println(sum);
+            if(sum == maxTarget) count++;
         }else{
-            for(int i =s; i<=n; i++){
-                combi[index] = i;
-                DFS(index+1, i+1);
-            }
+            //다음 배열의 원소를 +1
+            DFS(index+1, sum+arr[index], arr);
+            //다음 배열의 원소를 -1
+            DFS(index+1, sum-arr[index], arr);
         }
     }
 }
