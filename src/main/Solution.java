@@ -1,30 +1,37 @@
 package main;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Main {
-    static int maxTarget;
-    static int count;
     public static void main(String[] args) {
 
         System.out.println(new Main().solution(new int[]{1, 1, 1, 1, 1}, 3));
     }
 
     public int solution(int[] numbers, int target) {
-        maxTarget = target;
-        DFS(0,0,numbers);
-        return count;
-    }
 
-    private void DFS(int index, int sum, int[]arr){
-        if(index == arr.length){
-            System.out.println(sum);
-            if(sum == maxTarget) count++;
-        }else{
-            //다음 배열의 원소를 +1
-            DFS(index+1, sum+arr[index], arr);
-            //다음 배열의 원소를 -1
-            DFS(index+1, sum-arr[index], arr);
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+
+        int count = 0;
+        int level = 0;
+        while(!queue.isEmpty()){
+            int len = queue.size();
+            for(int i = 0; i<len; i++){
+                Integer cur = queue.poll();
+                if(cur == null) { throw new NullPointerException();}
+
+                if(level == numbers.length){
+                    if(cur == target) count++;
+                }else{
+                    queue.offer(cur+numbers[level]);
+                    queue.offer(cur+(-1*numbers[level]));
+                }
+            }
+            level++;
+
         }
+        return count;
     }
 }
