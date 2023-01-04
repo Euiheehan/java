@@ -1,27 +1,42 @@
 package main;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(new Main().solution(new int[]{1, 2, 3, 9, 10, 12}, 7));
+        System.out.println(new Main().solution("one4seveneight"));
     }
 
-    public int solution(int[] scoville, int K) {
-        PriorityQueue<Integer> queue = Arrays.stream(scoville).boxed().collect(Collectors.toCollection(PriorityQueue::new));
+    public int solution(String s) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("zero",0);
+        map.put("one",1);
+        map.put("two",2);
+        map.put("three",3);
+        map.put("four",4);
+        map.put("five",5);
+        map.put("six",6);
+        map.put("seven",7);
+        map.put("eight",8);
+        map.put("nine",9);
 
-        int count = 0;
-        while(queue.element() < K){
-            Integer cur = queue.poll();
-            Integer min = queue.poll();
-            if(cur == null || min == null) return -1;
+        StringBuilder result = new StringBuilder();
+        int start = 0;
+        for(int i = 1; i<=s.length(); i++){
+            String str = s.substring(start,i);
 
-            queue.offer(cur + min*2);
-            count++;
+            if(str.chars().allMatch(Character::isDigit)){
+                result.append(str);
+                start = i;
+            }
+
+            if(map.get(str) != null){
+                result.append(map.get(str));
+                start = i;
+            }
         }
-        return count;
+        return Integer.parseInt(result.toString());
     }
 }
