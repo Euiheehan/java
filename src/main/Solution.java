@@ -7,12 +7,8 @@ class Main {
     }
 
     public int solution(int a, int b, int n) {
-        int answer = 0;
-        while(n >= a){
-            int share = n/a * b;
-            answer += share;
-            n = share + (n%a);
-        }
-        return answer;
+        return (n - b) / (a - b) * b;
+        //문제에서는 항상 b<n 이기 때문에 조건 없어도된다.
+        //return (n > b ? n - b : 0) / (a - b) * b;
     }
 }
