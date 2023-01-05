@@ -1,7 +1,5 @@
 package main;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 class Main {
@@ -13,21 +11,32 @@ class Main {
     public int[] solution(String today, String[] terms, String[] privacies) {
         List<Integer> answer = new ArrayList<>();
 
-        LocalDate toDay = LocalDate.parse(today, DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        String[] toDayArr = today.split("\\.");
+        int toDayYear = Integer.parseInt(toDayArr[0]);
+        int toDayMonth = Integer.parseInt(toDayArr[1]);
+        int toDay = Integer.parseInt(toDayArr[2]);
+
+        int sumToDay = toDay + toDayMonth*28 + (toDayYear*12*28);
 
         Map<String, Integer> termsMap = new HashMap<>();
         for(String s : terms){
             String[] sp = s.split(" ");
-            termsMap.put(sp[0], Integer.parseInt(sp[1]));
+            termsMap.put(sp[0], Integer.parseInt(sp[1])*28);
         }
 
         for(int i = 0; i< privacies.length; i++){
             String[] pr = privacies[i].split(" ");
-            LocalDate target = LocalDate.parse(pr[0], DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-            target = target.plusMonths(termsMap.get(pr[1]));
+            String[] date = pr[0].split("\\.");
 
+            int year = Integer.parseInt(date[0]);
+            int sumMonth = Integer.parseInt(date[1]);
+            int day = Integer.parseInt(date[2])+termsMap.get(pr[1]);
 
-            if(target.compareTo(toDay) <= 0) answer.add(i+1);
+            int sumDay = day + sumMonth*28 + (year*12*28);
+
+            if(sumToDay>=sumDay){
+                answer.add(i+1);
+            }
         }
         return answer.stream().mapToInt(Integer::intValue).toArray();
     }
