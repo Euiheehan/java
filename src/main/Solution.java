@@ -28,6 +28,10 @@ class Main {
 
         list.sort((o1, o2) -> map.get(o2).compareTo(map.get(o1)));
 
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        int[] answer = new int[N];
+        for(int i = 0; i<N; i++){
+            answer[i] = list.get(i);
+        }
+        return answer;
     }
 }
