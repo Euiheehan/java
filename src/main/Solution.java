@@ -5,39 +5,29 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(new Main().solution("2022.05.19", new String[]{"A 6", "B 12", "C 3"}, new String[]{"2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"})));
+        System.out.println(Arrays.toString(new Main().solution(5, new int[]{1,2,2,1,3})));
     }
 
-    public int[] solution(String today, String[] terms, String[] privacies) {
-        List<Integer> answer = new ArrayList<>();
+    public int[] solution(int N, int[] stages) {
+        List<Integer> list = new ArrayList<>();
 
-        String[] toDayArr = today.split("\\.");
-        int toDayYear = Integer.parseInt(toDayArr[0]);
-        int toDayMonth = Integer.parseInt(toDayArr[1]);
-        int toDay = Integer.parseInt(toDayArr[2]);
+        double totalPlayer = stages.length;
 
-        int sumToDay = toDay + toDayMonth*28 + (toDayYear*12*28);
+        Map<Integer, Double> map = new HashMap<>();
 
-        Map<String, Integer> termsMap = new HashMap<>();
-        for(String s : terms){
-            String[] sp = s.split(" ");
-            termsMap.put(sp[0], Integer.parseInt(sp[1])*28);
-        }
-
-        for(int i = 0; i< privacies.length; i++){
-            String[] pr = privacies[i].split(" ");
-            String[] date = pr[0].split("\\.");
-
-            int year = Integer.parseInt(date[0]);
-            int sumMonth = Integer.parseInt(date[1]);
-            int day = Integer.parseInt(date[2])+termsMap.get(pr[1]);
-
-            int sumDay = day + sumMonth*28 + (year*12*28);
-
-            if(sumToDay>=sumDay){
-                answer.add(i+1);
+        for(int i = 1; i <=N; i++){
+            double notClear = 0;
+            for(int s : stages){
+                if(i==s) notClear++;
             }
+            map.put(i, totalPlayer == 0? 0 : notClear/totalPlayer);
+            list.add(i);
+
+            totalPlayer = totalPlayer-notClear;
         }
-        return answer.stream().mapToInt(Integer::intValue).toArray();
+
+        list.sort((o1, o2) -> map.get(o2).compareTo(map.get(o1)));
+
+        return list.stream().mapToInt(Integer::intValue).toArray();
     }
 }
