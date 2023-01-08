@@ -1,36 +1,42 @@
 package main;
 
-import java.util.*;
 
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(new Main().solution(5, new int[]{1,2,2,1,3})));
+        System.out.println(new Main().solution("1S*2T*3S"));
     }
 
-    public int[] solution(int N, int[] stages) {
-        List<Integer> list = new ArrayList<>();
+    public int solution(String dartResult) {
 
-        int totalPlayer = stages.length;
-        //0인덱스와 모두 클리어한 플레이어는 stage+1로 저장되기 때문에
-        //2가지 버전을 커버하기위해 +2를 해준다.
-        int[] notClear = new int[N+2];
-        for(int s : stages){
-            notClear[s]++;
+        int[] arr = new int[3];
+        int index = -1;
+        for(int i = 0; i<dartResult.length(); i++){
+            //숫자일 경우 인덱스 change
+            if(Character.isDigit(dartResult.charAt(i))){
+                index++;
+                if(dartResult.charAt(i) == '1' && Character.isDigit(dartResult.charAt(i+1))){
+                    arr[index] = 10;
+                    //10일 경우는 다음 인덱스 skip
+                    i++;
+                }else{
+                    arr[index] = Character.getNumericValue(dartResult.charAt(i));
+                }
+            }else{
+                switch (dartResult.charAt(i)) {
+                    case 'T' -> arr[index] = (int) Math.pow(arr[index], 3);
+                    case 'D' -> arr[index] = (int) Math.pow(arr[index], 2);
+                    case '*' -> {
+                        arr[index] *= 2;
+                        if(index != 0) arr[index - 1] *= 2;
+                    }
+                    case '#' -> arr[index] *= (-1);
+                }
+            }
         }
-        Map<Integer, Double> map = new HashMap<>();
-
-        for(int i = 1; i <=N; i++){
-            list.add(i);
-            map.put(i, totalPlayer == 0? 0 : (double)notClear[i]/totalPlayer);
-            totalPlayer = totalPlayer-notClear[i];
-        }
-
-        list.sort((o1, o2) -> map.get(o2).compareTo(map.get(o1)));
-
-        int[] answer = new int[N];
-        for(int i = 0; i<N; i++){
-            answer[i] = list.get(i);
+        int answer = 0;
+        for(int i : arr){
+            answer+=i;
         }
         return answer;
     }
