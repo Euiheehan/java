@@ -7,11 +7,12 @@ class Main {
     }
 
     public String solution(int[] food) {
-        StringBuilder answer = new StringBuilder();
-        for(int i =1; i< food.length; i++){
-            answer.append(String.valueOf(i).repeat(food[i]/2));
+        StringBuilder answer = new StringBuilder("0");
+
+        for (int i = food.length - 1; i > 0; i--) {
+            String s = String.valueOf(i).repeat(food[i]/2);
+            answer.insert(0,s).append(s);
         }
-        StringBuilder reverseAnswer = new StringBuilder(answer);
-        return answer.append(0).append(reverseAnswer.reverse()).toString();
+        return answer.toString();
     }
 }
