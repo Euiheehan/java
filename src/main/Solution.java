@@ -2,6 +2,8 @@ package main;
 
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 class Main {
     public static void main(String[] args) {
@@ -15,9 +17,15 @@ class Main {
         int removeNumbers = 0;
         int matchNumbers = 0;
 
+        Map<Integer, Integer> map = new HashMap<>();
+
         for(int i : lottos){
             if(i == 0) removeNumbers++;
-            else if(Arrays.stream(win_nums).anyMatch(value -> value == i)) matchNumbers++;
+            else map.put(i, 1);
+        }
+
+        for(int num : win_nums){
+            if(map.get(num) != null) matchNumbers++;
         }
 
         return new int[]{arr[matchNumbers+removeNumbers], arr[matchNumbers]};
