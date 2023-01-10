@@ -1,18 +1,28 @@
 package main;
 
+import java.util.Arrays;
+
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(new Main().solution(new int[]{1, 3, 4, 6}));
+        System.out.println(Arrays.toString(new Main().solution("banana")));
     }
 
-    public String solution(int[] food) {
-        StringBuilder answer = new StringBuilder("0");
+    public int[] solution(String s) {
+        int[] answer = new int[s.length()];
+        answer[0] = -1;
 
-        for (int i = food.length - 1; i > 0; i--) {
-            String s = String.valueOf(i).repeat(food[i]/2);
-            answer.insert(0,s).append(s);
+        char[] arr = s.toCharArray();
+        for(int i = 1; i<s.length();i++){
+            for(int j = i-1; j>=0; j--){
+                if(arr[i] == arr[j]) {
+                    answer[i] = i-j;
+                    break;
+                }else{
+                    answer[i] = -1;
+                }
+            }
         }
-        return answer.toString();
+        return answer;
     }
 }
