@@ -12,14 +12,9 @@ class Main {
         int answer = 0;
         Arrays.sort(score);
 
-        if(score.length < m) return 0;
 
-        int count = 1;
-        for(int i = score.length-1; i >= 0; i--){
-            if(count%m == 0){
-                answer += score[i]*m;
-            }
-            count++;
+        for(int i = score.length; i >= m; i-=m){
+          answer += score[i-m]*m;
         }
 
         return answer;
