@@ -1,22 +1,22 @@
 package main;
 
-import java.util.Arrays;
-
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(new Main().solution(3,4, new int[]{1, 2, 3, 1, 2, 3, 1}));
+        System.out.println(new Main().solution(10));
     }
 
-    public int solution(int k, int m, int[] score) {
+    public int solution(int n) {
         int answer = 0;
-        Arrays.sort(score);
-
-
-        for(int i = score.length; i >= m; i-=m){
-          answer += score[i-m]*m;
+        int[] arr = new int[n+1];
+        for(int i= 2; i<= n; i++){
+            if(arr[i] == 0){
+                answer++;
+                for(int j = i; j<=n; j+=i){
+                    arr[j] = 1;
+                }
+            }
         }
-
         return answer;
     }
 }
