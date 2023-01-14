@@ -1,33 +1,43 @@
 package main;
 
-import java.util.Stack;
+import java.util.*;
 
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(new Main().solution(new int[][]{{0,0,0,0,0},{0,0,1,0,3},{0,2,5,0,1},{4,2,4,4,2},{3,5,1,3,1}}, new int[]{1,5,3,5,1,2,1,4}));
+        System.out.println(new Main().solution(new int[]{1, 3, 2, 1, 2, 1, 3, 1, 2}));
     }
 
-    public int solution(int[][] board, int[] moves) {
-        Stack<Integer> stack = new Stack<>();
+    public int solution(int[] ingredient) {
+
+        Stack<Integer> stack1 = new Stack<>();
+        List<Integer> list = new ArrayList<>();
 
         int count = 0;
-        for(int m : moves){
-            int realM = m-1;
-            for(int i =0; i<board.length; i++){
-                if(board[i][realM] != 0){
-                    if(stack.size( ) > 0 && stack.peek() == board[i][realM]){
-                        count+=2;
-                        stack.pop();
-                    }else{
-                        stack.push(board[i][realM]);
+        int answer = 0;
+        int[] arr = new int[]{1,3,2,1};
+
+        for(int i : ingredient){
+            stack1.push(i);
+            //햄버거를 만들 수 있는 최소 수량 이상, 현재 포인터가 1 == 빵 인 경우만 check
+            if(stack1.size() > 3 && stack1.peek() == 1){
+                for (int k : arr) {
+                    int pop = stack1.pop();
+                    //햄버거 순서가 아닐 경우를 대비해
+                    list.add(pop);
+                    //햄버거 순서가 아닐 경우 이전까지 뺀 stack 원소 순서대로 넣기
+                    if (k != pop) {
+                        Collections.reverse(list);
+                        stack1.addAll(list);
+                        break;
                     }
-                    board[i][realM] = 0;
-                    break; // 그 아래꺼까지 가져오기 때문에 break 해줘야함
+                    count++;
                 }
+                list.clear();
+                if(count == 4) answer++;
+                count = 0;
             }
         }
-
-        return count;
+        return answer;
     }
 }
