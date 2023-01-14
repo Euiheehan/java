@@ -11,16 +11,16 @@ class Main {
     public int solution(int[] ingredient) {
         int answer = 0;
 
-        List<Integer> list = new ArrayList<>();
+        int[]arr= new int[ingredient.length];
         int index = 0;
 
         for(int i : ingredient){
-            list.add(index++, i);
+            arr[index++] = i;
 
-            if(index >= 3 && list.get(index-1) == 1
-                && list.get(index-2) == 3
-                && list.get(index-3) == 2
-                && list.get(index-4) == 1
+            if(index >= 4 && arr[index-1] == 1
+                && arr[index-2] == 3
+                && arr[index-3] == 2
+                && arr[index-4] == 1
             ){
                 answer++;
                 index-=4;
