@@ -15,18 +15,16 @@ class Main {
         int index = 0;
 
         for(int i : ingredient){
-            list.add(index, i);
+            list.add(index++, i);
 
-            if(index >= 3 && list.get(index) == 1
-                && list.get(index-1) == 3
-                && list.get(index-2) == 2
-                && list.get(index-3) == 1
+            if(index >= 3 && list.get(index-1) == 1
+                && list.get(index-2) == 3
+                && list.get(index-3) == 2
+                && list.get(index-4) == 1
             ){
                 answer++;
-                index-=3;
+                index-=4;
 
-            }else{
-              index++;
             }
         }
         return answer;
