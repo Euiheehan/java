@@ -1,31 +1,33 @@
 package main;
 
-import java.util.*;
+import java.util.Arrays;
 
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(new Main().solution(new int[]{2, 1, 1, 2, 3, 1, 2, 3, 1}));
+        System.out.println(Arrays.toString(new Main().solution(9, new int[]{10, 30, 40, 3, 0, 20, 4})));
     }
 
-    public int solution(int[] ingredient) {
-        int answer = 0;
+    public int[] solution(int k, int[] score) {
+        int[] answer = new int[score.length];
+        int[] arr = new int[k];
 
-        int[]arr= new int[ingredient.length];
-        int index = 0;
+        if(k>score.length) k = score.length;
 
-        for(int i : ingredient){
-            arr[index++] = i;
 
-            if(index >= 4 && arr[index-1] == 1
-                && arr[index-2] == 3
-                && arr[index-3] == 2
-                && arr[index-4] == 1
-            ){
-                answer++;
-                index-=4;
+        int min =  Integer.MAX_VALUE;
+        for(int i = 0; i<k; i++){
+            arr[i] = score[i];
+            min = Math.min(score[i], min);
+            answer[i] = min;
+        }
 
-            }
+
+        for(int i = k; i<score.length; i++){
+            Arrays.sort(arr);
+            if(arr[0] < score[i]) arr[0] = score[i];
+            Arrays.sort(arr);
+            answer[i] = arr[0];
         }
         return answer;
     }
