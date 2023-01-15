@@ -1,33 +1,26 @@
 package main;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 class Main {
     public static void main(String[] args) {
 
-        System.out.println(Arrays.toString(new Main().solution(9, new int[]{10, 30, 40, 3, 0, 20, 4})));
+        System.out.println(Arrays.toString(new Main().solution(3, new int[]{10, 100, 20, 150, 1, 100, 200})));
     }
 
     public int[] solution(int k, int[] score) {
         int[] answer = new int[score.length];
-        int[] arr = new int[k];
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(k);
 
-        if(k>score.length) k = score.length;
-
-
-        int min =  Integer.MAX_VALUE;
-        for(int i = 0; i<k; i++){
-            arr[i] = score[i];
-            min = Math.min(score[i], min);
-            answer[i] = min;
-        }
-
-
-        for(int i = k; i<score.length; i++){
-            Arrays.sort(arr);
-            if(arr[0] < score[i]) arr[0] = score[i];
-            Arrays.sort(arr);
-            answer[i] = arr[0];
+        for(int i=0; i<score.length; i++){
+            priorityQueue.offer(score[i]);
+            //사이즈가 k번 넘어가면 제일 작은 수 제거하고
+            if(priorityQueue.size() > k) {
+                priorityQueue.poll();
+            }
+            //제거한 큐에서 제일 작은 숫자
+            answer[i] = priorityQueue.element();
         }
         return answer;
     }
