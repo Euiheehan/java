@@ -1,31 +1,29 @@
 package main;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Scanner;
+import java.util.Stack;
 
 class Main {
     public static void main(String[] args) {
+        Scanner in=new Scanner(System.in);
+        String s = in.nextLine();
 
-        System.out.println(new Main().solution("5525","1255"));
+        System.out.print(new Main().solution(s));
     }
 
-    public String solution(String X, String Y) {
-        List<Character> list = new ArrayList<>();
-
-        Map<Character, Integer> map = new HashMap<>();
-        for(char y : Y.toCharArray()){
-            map.put(y, map.getOrDefault(y,0)+1);
+    public int solution(String s) {
+        Stack<Character> stack = new Stack<>();
+        int sum = 0;
+        for (int i=0; i<s.length(); i++){
+            if(s.charAt(i) =='(') stack.push('(');
+            else {
+                stack.pop();
+                //레이저용 닫는 괄호면
+                if(s.charAt(i-1) == '(') sum += stack.size();
+                    //선분용 닫는 괄호면
+                else sum++;
+            }
         }
-
-        for(char x : X.toCharArray()){
-           if(map.getOrDefault(x,0) !=0){
-               map.put(x, map.get(x)-1);
-               list.add(x);
-           }
-        }
-
-        if(list.isEmpty()) return "-1";
-        if(list.stream().allMatch(character -> character == '0')) return "0";
-        return list.stream().sorted(Comparator.reverseOrder()).map(String::valueOf).collect(Collectors.joining());
+        return sum;
     }
 }
