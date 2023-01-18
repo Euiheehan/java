@@ -8,28 +8,15 @@ class Main {
     public int solution(String[] babbling) {
         int answer = 0;
 
-        String[] arr = new String[]{"aya", "ye", "woo", "ma"};
-
-
         for(String s : babbling){
-            for (int i = 0; i<arr.length; i++){
-                if(s.contains(arr[i])){
-                    s = s.replaceAll(arr[i], String.valueOf(i));
-                }
-            }
 
-            boolean isTrue = true;
-            if(s.chars().allMatch(Character::isDigit)) {
-                for(int i = 0; i<s.length()-1; i++){
-                    if(s.charAt(i)==s.charAt(i+1)){
-                        isTrue = false;
-                        break;
-                    }
-                }
-                if(isTrue){
-                    answer++;
-                }
+            //연속된 옹알이는 무조건 2개 붙은 옹알이를 포함하기 때문에
+            if(!(s.contains("ayaaya") || s.contains("yeye") || s.contains("woowoo")|| s.contains("mama"))){
+                s = s.replaceAll("aya|ye|woo|ma", " ");
             }
+            s = s.replace(" ", "");
+
+            if("".equalsIgnoreCase(s)) answer++;
         }
         return answer;
     }
