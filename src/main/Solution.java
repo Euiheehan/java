@@ -12,11 +12,14 @@ class Main {
 
             //연속된 옹알이는 무조건 2개 붙은 옹알이를 포함하기 때문에
             if(!(s.contains("ayaaya") || s.contains("yeye") || s.contains("woowoo")|| s.contains("mama"))){
-                s = s.replaceAll("aya|ye|woo|ma", " ");
-            }
-            s = s.replace(" ", "");
+                s = s.replace("aya", " ");
+                s = s.replace("ye", " ");
+                s = s.replace("woo", " ");
+                s = s.replace("ma", " ");
+                s = s.replace(" ","");
 
-            if("".equalsIgnoreCase(s)) answer++;
+                if(s.length() ==0) answer++;
+            }
         }
         return answer;
     }
