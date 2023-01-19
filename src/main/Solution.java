@@ -1,26 +1,18 @@
 package main;
 
+import java.util.Arrays;
+
 class Main {
     public static void main(String[] args) {
-      System.out.print(new Main().solution(new String[]{"ayaye", "uuu", "yeye", "yemawoo", "ayaayaa"}));
+      System.out.print(new Main().solution("-1 -2 -3 -4"));
 
     }
-    public int solution(String[] babbling) {
-        int answer = 0;
+    public String solution(String s) {
+        StringBuilder answer = new StringBuilder();
+        int[] arr = Arrays.stream(s.split(" ")).mapToInt(Integer::parseInt).sorted().toArray();
 
-        for(String s : babbling){
+        answer.append(arr[0]).append(" ").append(arr[arr.length-1]);
 
-            //연속된 옹알이는 무조건 2개 붙은 옹알이를 포함하기 때문에
-            if(!(s.contains("ayaaya") || s.contains("yeye") || s.contains("woowoo")|| s.contains("mama"))){
-                s = s.replace("aya", " ");
-                s = s.replace("ye", " ");
-                s = s.replace("woo", " ");
-                s = s.replace("ma", " ");
-                s = s.replace(" ","");
-
-                if(s.length() ==0) answer++;
-            }
-        }
-        return answer;
+        return answer.toString();
     }
 }
