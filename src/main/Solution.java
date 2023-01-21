@@ -9,31 +9,29 @@ class Main {
     }
     public int solution(int[] priorities, int location) {
         int answer = 0;
-        Map<Integer, Integer> map = new HashMap<>();
+        int index = location;
         Queue<Integer> queue = new LinkedList<>();
 
-        for(int i = 0; i<priorities.length; i++){
-            map.put(i, priorities[i]);
+        for(int i : priorities){
             queue.offer(i);
         }
 
-        while(!queue.isEmpty()){
-            Integer cur = queue.poll();
-            //stream 쓰니까 2,5,18에서 시간 초과나옴
-            //int max = map.get(queue.stream().max(Comparator.comparing(map::get)).orElse(0));
-            int max = map.get(cur);
-            for(int i : queue){
-                if(max < map.get(i)) {
-                    max = map.get(i);
-                    break;
-                }
-            }
+        Arrays.sort(priorities);
+        int size = priorities.length-1;
 
-            if(map.get(cur) != max) {
-                queue.offer(cur);
-            } else {
+        while(!queue.isEmpty()){
+
+            Integer cur = queue.poll();
+            index--;
+            //제일 큰수와 현재 큐의 수가 맞는지 확인
+            if(priorities[size-answer] == cur){
+                //제일큰수면 그 다음 큰수와 나간 횟수를 위해 answer++해준다.
                 answer++;
-                if(location == cur) return answer;
+                if(index < 0) break;
+            }else{
+                queue.offer(cur);
+                //location이 0이나 1인데, 뒤에 큰 수가 있는 경우를 위해
+                if(index < 0) index = queue.size()-1;
             }
         }
 
