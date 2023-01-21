@@ -1,18 +1,42 @@
 package main;
 
-import java.util.Arrays;
+import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-      System.out.print(new Main().solution("-1 -2 -3 -4"));
+      System.out.print(new Main().solution(new int[]{1,2,8,3,4}, 4));
 
     }
-    public String solution(String s) {
-        StringBuilder answer = new StringBuilder();
-        int[] arr = Arrays.stream(s.split(" ")).mapToInt(Integer::parseInt).sorted().toArray();
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        Queue<Integer> queue = new LinkedList<>();
 
-        answer.append(arr[0]).append(" ").append(arr[arr.length-1]);
+        for(int i = 0; i<priorities.length; i++){
+            map.put(i, priorities[i]);
+            queue.offer(i);
+        }
 
-        return answer.toString();
+        while(!queue.isEmpty()){
+            Integer cur = queue.poll();
+            //stream 쓰니까 2,5,18에서 시간 초과나옴
+            //int max = map.get(queue.stream().max(Comparator.comparing(map::get)).orElse(0));
+            int max = map.get(cur);
+            for(int i : queue){
+                if(max < map.get(i)) {
+                    max = map.get(i);
+                    break;
+                }
+            }
+
+            if(map.get(cur) != max) {
+                queue.offer(cur);
+            } else {
+                answer++;
+                if(location == cur) return answer;
+            }
+        }
+
+        return answer;
     }
 }
