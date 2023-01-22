@@ -4,37 +4,48 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-      System.out.print(new Main().solution(new int[]{1,2,8,3,4}, 4));
+      System.out.print(new Main().solution(5, 5, new int[]{2,2,2,2,1,1,1,1,1}));
 
     }
-    public int solution(int[] priorities, int location) {
-        int answer = 0;
-        int index = location;
-        Queue<Integer> queue = new LinkedList<>();
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
 
-        for(int i : priorities){
-            queue.offer(i);
+        //대기트럭 Queue
+        Queue<Integer> truckQueue = new LinkedList<>();
+        for(int truck : truck_weights){
+            truckQueue.offer(truck);
         }
 
-        Arrays.sort(priorities);
-        int size = priorities.length-1;
+        //다리 Queue
+        Queue<Integer> bridgeQueue = new LinkedList<>();
 
-        while(!queue.isEmpty()){
+        //첫번째 트럭
+        Integer o = truckQueue.poll();
+        int answer = 1;
+        int queueSum = o == null? 0: o;
+        bridgeQueue.offer(o);
 
-            Integer cur = queue.poll();
-            index--;
-            //제일 큰수와 현재 큐의 수가 맞는지 확인
-            if(priorities[size-answer] == cur){
-                //제일큰수면 그 다음 큰수와 나간 횟수를 위해 answer++해준다.
-                answer++;
-                if(index < 0) break;
-            }else{
-                queue.offer(cur);
-                //location이 0이나 1인데, 뒤에 큰 수가 있는 경우를 위해
-                if(index < 0) index = queue.size()-1;
+        //다리에 트럭이 하나도 없을 때까지(==모두 공백일 때)
+        while(!bridgeQueue.stream().allMatch(integer -> integer.equals(0))) {
+            //다음 트럭(꺼내지말고 하중만)
+            Integer cur = truckQueue.peek();
+
+            if(answer >= bridge_length){
+                Integer clear = bridgeQueue.poll();
+                queueSum -= clear == null? 0 : clear;
             }
-        }
 
+            //다리 최대 수량보다 미만이지만, 다음 트럭 싣게되면 무게는 미만일때
+            if(bridgeQueue.size() < bridge_length && cur != null && queueSum + cur <= weight){
+                Integer t = truckQueue.poll();
+                bridgeQueue.offer(t);
+                queueSum += t == null? 0 : t;
+            }else{
+                //아니면 공백 넣기
+                bridgeQueue.offer(0);
+            }
+
+            answer++;
+        }
         return answer;
     }
 }
