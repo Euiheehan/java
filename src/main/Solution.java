@@ -8,15 +8,14 @@ class Main {
 
     public String solution(String s) {
         s = s.toLowerCase();
-        String[] arr = s.split(" ");
-        StringBuilder builder = new StringBuilder();
-        for(String a : arr){
-            //공백문자가 연속해서 나올 수 있습니다.
-            if(!a.isEmpty()){
-                builder.append(a.substring(0,1).toUpperCase()).append(a.substring(1));
-            }
-            builder.append(" ");
+        StringBuilder sb = new StringBuilder();
+        boolean isStartWith = true;
+
+        for(char c : s.toCharArray()){
+            sb.append(isStartWith? Character.toUpperCase(c) : c);
+            isStartWith = c == ' ';
         }
-        return s.endsWith(" ")?builder.toString() : builder.toString().trim();
+
+        return sb.toString();
     }
 }
